@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MAINTENANCE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="amaintenance.css" />
+</head>
+<body>
+  <nav class="navigation">
+    <h2 class="head">APT APARTMENT</h2>
+    <button class="logout-btn" id="logoutBtn">Logout</button>
+  </nav>
+
+  <i class="fas fa-arrow-left back-icon" onclick="goBack()" style="display: none;"></i>
+
+  <div class="dashboard-container">
+    <h1 class="dashboard-title">MAINTENANCE</h1>
+
+    <!-- 🔍 Search + Filter Controls -->
+    <div class="filter-container">
+      <div>
+        <label for="priority-filter">Filter by Priority:</label>
+        <select id="priority-filter">
+          <option value="all">All</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="searchId">Search by Request ID:</label>
+        <input type="text" id="searchId" placeholder="e.g., REQ005" />
+      </div>
+
+      <button class="action-button show-resolved" onclick="showResolved()">Show Resolved Problems</button>
+    </div>
+
+    <!-- Request containers -->
+    <div class="requests-container" id="requests-container"></div>
+    <div class="resolved-container" id="resolved-container" style="display: none;"></div>
+  </div>
+
+  <script>
+    const requestsContainer = document.getElementById("requests-container");
+    const resolvedContainer = document.getElementById("resolved-container");
+    const backIcon = document.querySelector(".back-icon");
+    const filterContainer = document.querySelector(".filter-container");
+    const dashboardTitle = document.querySelector(".dashboard-title");
+    const priorityFilter = document.getElementById("priority-filter");
+    const searchInput = document.getElementById("searchId");
+
+    let allRequests = [];
+
+    async function loadRequests() {
+      try {
+        const response = await fetch("http://localhost:5000/api/requests");
+        allRequests = await response.json();
+        renderAllRequests();
+      } catch (err) {
+        console.error("Error fetching requests:", err);
+      }
+    }
+
+    function renderAllRequests() {
+      requestsContainer.innerHTML = '';
+      resolvedContainer.innerHTML = '';
+      const searchValue = searchInput.value.trim().toLowerCase();
+      const filterValue = priorityFilter.value;
+
+      allRequests.forEach(request => {
+        const requestId = request.requestNumber || request._id;
+        const matchesSearch = !searchValue || requestId.toLowerCase().includes(searchValue);
+        const matchesPriority = filterValue === 'all' || request.priority === filterValue;
+
+        if (matchesSearch && matchesPriority) {
+          renderRequestCard(request);
+        }
+      });
+    }
+
+    function renderRequestCard(request) {
+      const card = document.createElement("div");
+      card.classList.add("request-card");
+      card.setAttribute("data-status", request.status);
+      card.setAttribute("data-priority", request.priority);
+
+      const requestId = request.requestNumber || request._id;
+
+      card.innerHTML = `
+        <div class="request-header">
+          <span class="resident-name">${requestId} - ${request.residentName}</span>
+          <span class="status ${request.status}">${capitalize(request.status)}</span>
+        </div>
+        <div class="request-body">
+          <p><strong>Issue:</strong> ${request.issueType}</p>
+          <p><strong>Description:</strong> ${request.description}</p>
+          <p><strong>Priority:</strong> ${capitalize(request.priority)}</p>
+        </div>
+        <div class="request-actions">
+          ${request.status === "pending" ? `
+            <button class="action-button resolve" onclick="markAsResolved('${request._id}', this)">Mark as Resolved</button>
+          ` : ""}
+          <button class="action-button delete" onclick="deleteRequest('${request._id}', this)">Delete</button>
+        </div>
+      `;
+
+      (request.status === "resolved" ? resolvedContainer : requestsContainer).appendChild(card);
+    }
+
+    function capitalize(text) {
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
+    async function markAsResolved(id, button) {
+      try {
+        await fetch(`http://localhost:5000/api/requests/${id}/resolve`, {
+          method: "PATCH",
+        });
+
+        // Update local data + re-render
+        allRequests = allRequests.map(req =>
+          req._id === id ? { ...req, status: 'resolved' } : req
+        );
+        renderAllRequests();
+      } catch (err) {
+        console.error("Error resolving request:", err);
+      }
+    }
+
+    async function deleteRequest(id, button) {
+      try {
+        await fetch(`http://localhost:5000/api/requests/${id}`, {
+          method: "DELETE",
+        });
+
+        allRequests = allRequests.filter(req => req._id !== id);
+        renderAllRequests();
+      } catch (err) {
+        console.error("Error deleting request:", err);
+      }
+    }
+
+    priorityFilter.addEventListener("change", renderAllRequests);
+    searchInput.addEventListener("input", renderAllRequests);
+
+    function showResolved() {
+      backIcon.style.display = "block";
+      filterContainer.style.display = "none";
+      dashboardTitle.textContent = "RESOLVED PROBLEMS";
+      requestsContainer.style.display = "none";
+      resolvedContainer.style.display = "block";
+    }
+
+    function goBack() {
+      backIcon.style.display = "none";
+      filterContainer.style.display = "flex";
+      dashboardTitle.textContent = "MAINTENANCE";
+      requestsContainer.style.display = "block";
+      resolvedContainer.style.display = "none";
+    }
+
+    window.onload = loadRequests;
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.clear();
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>

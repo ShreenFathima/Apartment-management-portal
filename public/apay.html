@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Rent Payment Management</title>
+  <link rel="stylesheet" href="apay.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+</head>
+<body>
+ <nav class="navigation">
+    <h2 class="head">APT APARTMENT</h2>
+    <button class="logout-btn" id="logoutBtn">Logout</button>
+  </nav>
+
+  <main class="admin-dashboard">
+    <section class="dashboard-summary">
+      <h2 class="section-title">Dashboard Overview</h2>
+      <div class="summary-cards">
+        <div class="card total-payments">
+          <h3>Total Rent Collected</h3>
+          <p id="totalRentCollected">₹0</p>
+        </div>
+        <div class="card total-records">
+          <h3>Total Records</h3>
+          <p id="totalRecords">0</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="search-bar">
+      <input type="text" id="searchResident" placeholder="Search by name..." onkeyup="searchResident()">
+      <select id="paymentFilter" onchange="filterPayments()">
+        <option value="">Filter by Status</option>
+        <option value="paid">Paid</option>
+        <option value="due">Due</option>
+      </select>
+    </section>
+
+    <section class="payment-management">
+      <div class="header-container">
+        <h2 class="section-title">Resident Rent Payments</h2>
+        <button class="export-btn" onclick="exportCV()">Export CSV</button>
+      </div>
+      <table class="payment-table">
+        <thead>
+          <tr>
+            <th>Resident Name</th>
+            <th>Phone</th>
+            <th>Block No</th>
+            <th>Amount</th>
+            <th>Payment Date</th>
+            <th>Status</th>
+            <!-- Removed Action header -->
+          </tr>
+        </thead>
+        <tbody id="paymentTableBody">
+          <!-- Dynamic content here -->
+        </tbody>
+      </table>
+    </section>
+
+    <section class="add-payment">
+      <form id="manualPaymentForm">
+        <h3>Add Payment Record</h3>
+        <input type="text" id="residentName" placeholder="Resident Name" required>
+        <input type="tel" id="residentPhone" placeholder="Phone Number" required>
+        <input type="text" id="residentBlock" placeholder="Block Number" required>
+        <input type="number" id="paymentAmount" placeholder="Amount" required>
+        <input type="date" id="paymentDate" required>
+        <button type="button" class="submit-btn" onclick="addPayment()">Add Payment</button>
+      </form>
+    </section>
+  </main>
+
+  <div id="successPopup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <h3>Payment Added Successfully!</h3>
+      <button onclick="closePopup()">OK</button>
+    </div>
+  </div>
+
+  <script>
+    async function fetchRentPayments() {
+      try {
+        const res = await fetch("http://localhost:5000/api/rent");
+        const payments = await res.json();
+
+        const tbody = document.getElementById("paymentTableBody");
+        tbody.innerHTML = "";
+
+        let totalAmount = 0;
+
+        payments.forEach(payment => {
+          totalAmount += payment.amount;
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${payment.residentName}</td>
+            <td>${payment.phone}</td>
+            <td>${payment.block}</td>
+            <td>₹${payment.amount}</td>
+            <td>${formatDate(payment.paymentDate)}</td>
+            <td><span class="status status-${payment.status.toLowerCase()}">${payment.status}</span></td>
+          `;
+          tbody.appendChild(row);
+        });
+
+        document.getElementById("totalRentCollected").textContent = `₹${totalAmount.toLocaleString()}`;
+        document.getElementById("totalRecords").textContent = payments.length;
+
+      } catch (error) {
+        console.error("❌ Error fetching rent payments:", error);
+      }
+    }
+
+    async function addPayment() {
+      const name = document.getElementById("residentName").value.trim();
+      const phone = document.getElementById("residentPhone").value.trim();
+      const block = document.getElementById("residentBlock").value.trim();
+      const amount = parseFloat(document.getElementById("paymentAmount").value);
+      const date = document.getElementById("paymentDate").value;
+
+      if (!name || !phone || !block || isNaN(amount) || !date) {
+        alert("Please fill out all fields correctly.");
+        return;
+      }
+
+      const paymentData = {
+        residentName: name,
+        phone,
+        block,
+        amount,
+        paymentDate: date,
+        status: "Due"
+      };
+
+      try {
+        const response = await fetch("http://localhost:5000/api/rent/add", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(paymentData),
+        });
+
+        if (!response.ok) throw new Error("Failed to add payment");
+
+        document.getElementById("successPopup").style.display = "flex";
+        document.getElementById("manualPaymentForm").reset();
+        fetchRentPayments();
+      } catch (err) {
+        console.error("❌ Error adding payment:", err);
+        alert("Something went wrong while adding payment!");
+      }
+    }
+
+    function closePopup() {
+      document.getElementById("successPopup").style.display = "none";
+    }
+
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+    }
+
+    // Initial fetch
+    fetchRentPayments();
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.clear();
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>

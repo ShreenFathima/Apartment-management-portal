@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rent Payment</title>
+  <link rel="stylesheet" href="rpay.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ✅ Navigation -->
+   <nav class="navigation">
+    <h2 class="head">APT APARTMENT</h2>
+    <button class="logout-btn" id="logoutBtn">Logout</button>
+  </nav>
+
+  <!-- ✅ Main Content -->
+  <div class="container">
+    <h2>Rent Payment</h2>
+
+    <!-- ✅ Rent History -->
+    <div class="history-list">
+      <div class="history-item">
+        <span>01-Feb-2025</span>
+        <span>₹20,000</span>
+        <span class="status-due">Due</span>
+      </div>
+      <div class="history-item">
+        <span>01-Jan-2025</span>
+        <span>₹20,000</span>
+        <span class="status-paid">Paid</span>
+      </div>
+    </div>
+
+    <!-- ✅ Pay Now Button -->
+    <button class="pay-now-btn" onclick="showQR()">Pay Now</button>
+
+    <!-- ✅ UPI QR Section -->
+    <div id="upiSection" class="upi-section">
+      <h3>Scan this QR to pay ₹20,000</h3>
+
+      <img src="https://api.qrserver.com/v1/create-qr-code/?data=upi://pay?pa=sowmiya0424@oksbi&pn=APT%20Apartment&am=20000&cu=INR&tn=February%20Rent" alt="UPI QR Code">
+
+      <br><br>
+      <button class="done-btn" onclick="hideQR()">Done</button>
+    </div>
+  </div>
+
+  <script src="rpay.js"></script>
+</body>
+</html>

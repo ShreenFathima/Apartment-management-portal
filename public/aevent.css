@@ -1,0 +1,205 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #f4f4f9, #e1e1e6);
+  color: #333;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Navigation */
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2a2a72;
+  padding: 15px 30px;
+}
+
+.head {
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.logout-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: #d32f2f;
+}
+/* Dashboard Container */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 100px auto 0;
+  padding: 30px 40px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Titles */
+.dashboard-title {
+  font-family: 'Playfair Display', serif;
+  color: #2a2a72;
+  font-size: 32px;
+  margin-bottom: 40px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.account-details {
+  width: 100%;
+  margin-bottom: 40px;
+  background: #fff;
+  border-radius: 15px;
+  padding: 20px 30px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.account-details h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: #2a2a72;
+  margin-bottom: 15px;
+}
+
+.account-details p {
+  font-size: 16px;
+  margin: 6px 0;
+  color: #333;
+}
+
+/* Main Feature Grid (Top 2 Cards) */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.card-link {
+  text-decoration: none;
+}
+
+.card {
+  background: linear-gradient(145deg, #e1e1e6, #d0d0d0);
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  color: #333;
+  border: 2px solid rgba(42, 42, 114, 0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(42, 42, 114, 0.8);
+}
+
+.card i {
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: #2a2a72;
+}
+
+.card h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.card p {
+  font-size: 14px;
+}
+
+/* ===== Apartment Features Section ===== */
+#features {
+  width: 100%;
+  margin-top: 40px;
+  padding: 30px 20px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+#features h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: #2a2a72;
+  margin-bottom: 30px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* Feature Card Grid (Inside #features) */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+/* Individual Feature Card */
+.feature-card {
+  text-align: center;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #e1e1e6, #d0d0d0);
+  padding: 20px;
+  color: #333;
+  border: 2px solid rgba(42, 42, 114, 0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(42, 42, 114, 0.8);
+}
+
+.feature-card i {
+  font-size: 36px;
+  margin-bottom: 12px;
+  color: #2a2a72;
+}
+
+.feature-card h3 {
+  font-size: 18px;
+  margin: 0;
+  color: #2a2a72;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navigation {
+    padding: 10px 20px;
+  }
+
+  .card,
+  .feature-card {
+    height: auto;
+  }
+}

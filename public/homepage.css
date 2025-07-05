@@ -1,0 +1,339 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    background-color: #f4f4f9;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+}
+
+/* Navigation Bar */
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: #2a2a72;
+    color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.head {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.navigation ul {
+    display: flex;
+    list-style: none;
+    gap: 40px;
+}
+
+.navigation ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.navigation ul li a:hover {
+    color: #00bfff;
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    background: linear-gradient(to right, rgba(42, 42, 114, 0.8), rgba(0, 159, 253, 0.8)), 
+                url('images.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 80px;
+}
+
+.hero-text h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+.hero-text p {
+    font-size: 1.3rem;
+    color: white;
+}
+
+
+ .login-button {
+    padding:8px 16px;
+    background-color: #00bfff;       /* Deep blue background to match navbar */
+    color: white;                    /* White text */
+    border: 2px ;         /* Black border as requested */
+    border-radius: 10px;             /* Rounded corners */
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.login-button:hover {
+    background-color: #84c7dd;
+    color: #2a2a72;
+    /* border: 2px solid white; */
+}
+
+
+.cta-button {
+    padding: 14px 24px;
+    background: #00bfff;
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+}
+
+.cta-button:hover {
+    background: transparent;
+    border: 2px solid #00bfff;
+    color: #00bfff;
+}
+
+
+
+
+.about-us h2 {
+    font-size: 3rem;
+    color: #2a2a72;
+    margin-top: 60px; /* Adjusted for fixed navbar */
+    padding-top: 20px; /* Added padding to ensure visibility */
+    margin-bottom: 30px;
+    font-weight: 700;
+    text-align: left;
+}
+
+.about-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch; /* Stretch items to have equal heights */
+    gap: 30px;
+    position: relative;
+}
+
+.about-text {
+    flex: 1;
+    padding: 20px;
+    color: #333;
+    z-index: 1;
+}
+
+.about-text p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+}
+
+.about-text strong {
+    color: #2a2a72;
+}
+
+.about-image {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-top: 80px; /* NEW */
+}
+
+.about-image img {
+    width: 50%;
+    height: auto;
+    object-fit: cover;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); /* Creates a hexagon shape */
+}
+
+/* Adding a gradient overlay to blend the image with the background */
+.about-image:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .about-text {
+        text-align: center;
+    }
+
+    .about-image {
+        max-width: 100%;
+        height: auto; /* Reset height for smaller screens */
+    }
+
+    .about-image img {
+        height: auto; /* Maintain aspect ratio */
+    }
+    #about {
+        scroll-margin-top: 0; /* Removes unnecessary space */
+        margin-top: 0; /* Ensure no extra margin */
+        padding-top: 0; /* Ensure no extra padding */
+      }
+      
+      :target {
+        scroll-margin-top: 80px; /* Adjust this based on the height of the fixed navbar */
+      }
+      
+}
+
+
+/* Contact Section */
+.contact {
+    text-align: center;
+    padding: 50px 20px;
+     /* updated from #FBEED7 */
+     background-color: white;/* updated from #724A24 */
+}
+
+.contact h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color:#2a2a72; /* updated from #946D43 */
+    margin-bottom: 30px;
+}
+
+.contact p {
+    font-size: 1.1rem;
+    color: black /* updated from #724A24 */
+}
+
+.contact a {
+    color:#2a2a72; /* updated from #D9C19D */
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.contact i {
+    margin-right: 10px;
+    color: #2a2a72;; /* added for icon color consistency */
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: px 10px;
+    background-color: #2a2a72; /* updated from #946D43 */
+    color: #f4f4f9; /* updated from #FBEED7 */
+}
+
+footer .social-media a {
+    margin: 0 15px;
+    font-size: 30px;
+    color: #00bfff; /* updated from #D9C19D */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer .social-media a:hover {
+    color: #f4f4f9; /* updated from #FBEED7 */
+}
+/* Features */
+.features {
+    padding: 80px 40px;
+    background-color: white ;/* updated from #E9D7B6 */
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.features h2 {
+    width: 100%;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #2a2a72; /* updated from #946D43 */
+    margin-bottom: 10px;
+}
+
+.features p {
+    width: 100%;
+    font-size: 1.2rem;
+    color: #333; /* updated from #724A24 */
+    margin-bottom: 40px;
+}
+
+.feature-item {
+    background: #e0ecff; /* updated from #D9C19D */
+    border-radius: 8px;
+    width: 250px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: 0.3s;
+    text-align: center;
+}
+
+.feature-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.feature-item i {
+    font-size: 3rem;
+    color: #2a2a72; /* updated from #724A24 */
+    margin-bottom: 15px;
+}
+
+.feature-item h3 {
+    font-size: 1.5rem;
+    color: #2a2a72; /* updated from #724A24 */
+    margin-bottom: 10px;
+}
+
+/* Rules */
+.rules {
+    padding: 80px 40px;
+    background-color: white;
+    /* updated from #FBEED7 */
+    text-align: center;
+}
+
+.rules h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #2a2a72; /* updated from #946D43 */
+    margin-bottom: 20px;
+}
+
+.rules ul {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+    font-size: 1.2rem;
+    color: #333; /* updated from #724A24 */
+    line-height: 2;
+}
+

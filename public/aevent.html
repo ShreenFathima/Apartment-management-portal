@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management</title>
+    <link rel="stylesheet" href="aevent.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navigation">
+        <h2 class="head">APT APARTMENT - Admin</h2>
+    </div>
+</nav>
+    <main class="content">
+        <header>
+            <h2>Event Management</h2>
+            <div class="search-container">
+                <input type="text" id="searchEvent" class="search-input" placeholder="Search for an event..." oninput="searchEvents()">
+                <i class="fas fa-search search-icon"></i> <!-- Updated search icon -->
+            </div>
+        </header>
+
+        <section class="event-section">
+            <button class="add-event-btn" onclick="openModal()">+ Add Event</button>
+            <h3>Upcoming Events</h3>
+            <table class="table" id="eventTable">
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Community Meetup</td><td>2024-12-20</td><td>5:00 PM</td><td>Clubhouse</td></tr>
+                    <tr><td>New Year Celebration</td><td>2024-12-31</td><td>10:00 PM</td><td>Rooftop</td></tr>
+                    <tr><td>Yoga Workshop</td><td>2025-01-05</td><td>7:00 AM</td><td>Garden Area</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Add Event Modal -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Add New Event</h2>
+            <form id="eventForm">
+                <label>Event Name:</label>
+                <input type="text" id="eventName" required>
+                <label>Date:</label>
+                <input type="date" id="eventDate" required>
+                <label>Time:</label>
+                <input type="time" id="eventTime" required>
+                <label>Location:</label>
+                <input type="text" id="eventLocation" required>
+                <button type="submit">Add Event</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Function to search events
+        function searchEvents() {
+            const query = document.getElementById("searchEvent").value.toLowerCase();
+            const rows = document.querySelectorAll("#eventTable tbody tr");
+            rows.forEach(row => {
+                const eventCell = row.cells[0].textContent.toLowerCase();
+                row.style.display = eventCell.includes(query) ? "" : "none";
+            });
+        }
+
+        // Open Modal
+        function openModal() {
+            document.getElementById("eventModal").style.display = "flex";
+        }
+
+        // Close Modal
+        function closeModal() {
+            document.getElementById("eventModal").style.display = "none";
+        }
+
+        // Add Event Function
+        document.getElementById("eventForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("eventName").value;
+            const date = document.getElementById("eventDate").value;
+            const time = document.getElementById("eventTime").value;
+            const location = document.getElementById("eventLocation").value;
+
+            if (name && date && time && location) {
+                const table = document.getElementById("eventTable").getElementsByTagName("tbody")[0];
+                const newRow = table.insertRow();
+                newRow.innerHTML = `<td>${name}</td><td>${date}</td><td>${time}</td><td>${location}</td>`;
+
+                document.getElementById("eventForm").reset();
+                closeModal();
+            } else {
+                alert("Please fill in all fields.");
+            }
+        });
+    </script>
+
+</body>
+</html>

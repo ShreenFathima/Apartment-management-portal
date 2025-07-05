@@ -1,0 +1,150 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: url('bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Header Section */
+/* Navigation Bar */
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2a2a72;
+  padding: 15px 30px;
+}
+.navigation {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+
+.head {
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.logout-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.logout-btn:hover {
+  background-color: #d32f2f;
+}
+
+h2 {
+    font-size: 1.8rem;
+}
+
+/* Search Bar */
+.search-container {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 10px;
+    border-radius: 30px;
+    border-color: black;
+}
+
+.search-input {
+    width: 250px;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+}
+
+.search-button {
+    background: linear-gradient(135deg, #009ffd, #2a2a72);
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* Stats Section */
+.stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.stat-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #009ffd;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    width: 200px;
+    font-size: 1.2rem;
+}
+
+.stat-box i {
+    margin-right: 10px;
+}
+
+/* Table Section */
+.table-section {
+    padding: 20px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table th, .table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background: #2a2a72;
+    color: white;
+}
+
+.table tr:nth-child(even) {
+    background: #f2f2f2;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .stats {
+        flex-direction: column;
+        align-items: center;
+    }
+    .stat-box {
+        width: 90%;
+        margin-bottom: 10px;
+    }
+    .search-input {
+        width: 100%;
+    }
+}

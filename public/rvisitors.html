@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Visitor Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+  <link rel="stylesheet" href="rvisitors.css">
+</head>
+<body>
+
+  <nav class="navigation">
+    <h2 class="head">APT APARTMENT</h2>
+    <button class="logout-btn">Logout</button>
+  </nav>
+
+  <main class="content">
+    <div class="flex-container">
+      
+      <!-- ✅ Visitor Form -->
+      <div class="form-section">
+        <h2>Visitor Form</h2>
+        <form id="visitor-form">
+          <label>Visitor Name</label>
+          <input type="text" id="visitor-name" required />
+
+          <label>Date In</label>
+          <input type="date" id="date-in" required />
+
+          <label>Time In</label>
+          <input type="time" id="time-in" required />
+
+          <label>Date Out</label>
+          <input type="date" id="date-out" required />
+
+          <label>Time Out</label>
+          <input type="time" id="time-out" required />
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+
+      <!-- ✅ Visitor Table -->
+      <div class="table-section">
+        <h2>Visitor List</h2>
+        <input type="text" id="visitor-search" placeholder="Search Visitors..." />
+        <button id="export-pdf">Export as Excel</button>
+
+        <table id="visitor-table">
+          <thead>
+            <tr>
+              <th>Visitor Name</th>
+              <th>Date In</th>
+              <th>Time In</th>
+              <th>Date Out</th>
+              <th>Time Out</th>
+            </tr>
+          </thead>
+          <tbody id="visitor-list-body">
+            <!-- Dynamic rows will appear here -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+  let visitors = [];
+
+  async function fetchVisitors() {
+    const user = JSON.parse(localStorage.getItem("residentUser"));
+    if (!user) {
+      alert("Please login first.");
+      window.location.href = "login.html";
+      return;
+    }
+
+    try {
+      const res = await fetch(`http://localhost:5000/api/visitors/resident/${user.username}`);
+      const data = await res.json();
+      visitors = data;
+      updateTable();
+    } catch (err) {
+      console.error("❌ Failed to fetch visitors:", err);
+    }
+  }
+
+  async function addVisitorToBackend(visitor) {
+    try {
+      const res = await fetch("http://localhost:5000/api/visitors/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(visitor)
+      });
+
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.error || "Error");
+      alert("✅ Visitor saved.");
+      return true;
+    } catch (err) {
+      alert("❌ Error: " + err.message);
+      return false;
+    }
+  }
+
+  document.getElementById("visitor-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const user = JSON.parse(localStorage.getItem("residentUser"));
+    if (!user) {
+      alert("Please login first.");
+      return;
+    }
+
+    const visitor = {
+      username: user.username,
+      visitorName: document.getElementById("visitor-name").value.trim(),
+      dateIn: document.getElementById("date-in").value,
+      timeIn: document.getElementById("time-in").value,
+      dateOut: document.getElementById("date-out").value,
+      timeOut: document.getElementById("time-out").value
+    };
+
+    const inDate = new Date(`${visitor.dateIn}T${visitor.timeIn}`);
+    const outDate = new Date(`${visitor.dateOut}T${visitor.timeOut}`);
+    if (outDate < inDate) {
+      alert("❌ 'Out' time must be after 'In' time.");
+      return;
+    }
+
+    const success = await addVisitorToBackend(visitor);
+    if (success) {
+      this.reset();
+      fetchVisitors();
+    }
+  });
+
+  function updateTable() {
+    const tbody = document.getElementById("visitor-list-body");
+    tbody.innerHTML = visitors.map(v =>
+      `<tr>
+        <td>${v.visitorName}</td>
+        <td>${v.dateIn ? v.dateIn.split("T")[0] : ""}</td>
+        <td>${v.timeIn}</td>
+        <td>${v.dateOut ? v.dateOut.split("T")[0] : ""}</td>
+        <td>${v.timeOut}</td>
+      </tr>`
+    ).join("");
+  }
+
+  document.getElementById("visitor-search").addEventListener("keyup", function () {
+    const filter = this.value.toLowerCase();
+    const rows = document.querySelectorAll("#visitor-list-body tr");
+    rows.forEach(row => {
+      row.style.display = row.innerText.toLowerCase().includes(filter) ? "" : "none";
+    });
+  });
+
+  document.getElementById("export-pdf").addEventListener("click", function () {
+    const table = document.getElementById("visitor-table");
+    const worksheet = XLSX.utils.table_to_sheet(table);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Visitors");
+    XLSX.writeFile(workbook, "Visitor_List.xlsx");
+  });
+
+  // ✅ Load data on page load
+  window.onload = fetchVisitors;
+</script>
+
+</body>
+</html>

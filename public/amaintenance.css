@@ -1,0 +1,250 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #f4f4f9, #e1e1e6); /* Updated background */
+    color: #333; /* Updated text color */
+    min-height: 100vh;
+    padding: 20px;
+}
+/* Navigation Bar */
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2a2a72;
+  padding: 15px 30px;
+}
+.navigation {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+
+.head {
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.logout-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.logout-btn:hover {
+  background-color: #d32f2f;
+}
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 40px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dashboard-title {
+    /* font-family: 'Playfair Display', serif; */
+    color: #2a2a72; /* Dark blue */
+    font-size: 32px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+/* Filter Section */
+.filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.filter-container label {
+    font-size: 16px;
+    color: #2a2a72; /* Dark blue */
+    margin-right: 10px;
+}
+
+#priority-filter {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 2px solid rgba(42, 42, 114, 0.4); /* Dark blue border */
+    background: #ffffff; /* Light background */
+    color: #333; /* Text color */
+    font-size: 14px;
+}
+
+#priority-filter:focus {
+    outline: none;
+    border-color: #2a2a72; /* Focus border color */
+}
+
+/* Button Styles */
+.action-button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.action-button.show-resolved {
+    background: #009ffd; /* Soft blue */
+    color: #fff;
+}
+
+.action-button.show-resolved:hover {
+    background: #2a2a72; /* Dark blue */
+    transform: translateY(-3px);
+}
+
+/* Back Icon */
+.back-icon {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 20px;
+    color: #2a2a72; /* Dark blue */
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    display: none; /* Initially hidden */
+}
+
+.back-icon:hover {
+    transform: translateY(-3px);
+}
+
+/* Request Containers */
+.requests-container, .resolved-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+/* Request Card */
+.request-card {
+    background: linear-gradient(145deg, #e1e1e6, #d0d0d0); /* Light gradient background */
+    border-radius: 15px;
+    padding: 20px 30px;
+    border: 2px ;
+    /* box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); */
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* .request-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(42, 42, 114, 0.8); /* Hover shadow */
+ 
+
+.request-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.resident-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: #2a2a72; /* Dark blue */
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.status.pending {
+    background: #ffcc00; /* Yellow for pending status */
+    color: #333;
+}
+
+.status.resolved {
+    background: #4caf50; /* Green for resolved status */
+    color: #fff;
+}
+
+.request-body {
+    color: #333; /* Text color */
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.request-body p strong {
+    color: #2a2a72; /* Dark blue for strong text */
+}
+
+.request-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    margin-bottom: 16px;
+}
+
+.action-button.resolve {
+    background: #009ffd; /* Soft blue */
+    color: #fff;
+}
+
+.action-button.resolve:hover {
+    background: #2a2a72; /* Dark blue */
+    transform: translateY(-3px);
+}
+
+.action-button.delete {
+    background: #e74c3c; /* Red for delete */
+    color: #fff;
+}
+
+.action-button.delete:hover {
+    background: #c0392b; /* Darker red */
+    transform: translateY(-3px);
+}
+
+/* Style for filter select box */
+#priority-filter,
+#searchId {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+#priority-filter:focus,
+#searchId:focus {
+  border-color: #007bff;
+}
+
+/* Optional: Add some spacing between controls if not already there */
+.filter-container > div {
+  margin-right: 16px;
+}
+.request-card {
+    padding: 25px 30px;
+    border-radius: 15px;
+    margin: 10px 0; /* Optional: adds extra spacing outside the card */
+}

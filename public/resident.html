@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resident Dashboard</title>
+
+  <!-- Fonts and Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="resident.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+  <!-- ✅ Navigation Bar -->
+  <nav class="navigation">
+    <h2 class="head">APT APARTMENT</h2>
+    <button id="logoutBtn" class="logout-button">Logout</button>
+  </nav>
+
+  <!-- ✅ Main Dashboard Container -->
+  <div class="dashboard-container">
+    <h1 class="dashboard-title">Resident Dashboard</h1>
+
+    <!-- ✅ Resident Info Section (MATCHED to Admin) -->
+    <div class="account-details">
+      <h4>Account Details</h4>
+      <div class="account-details-grid">
+        <p><strong>Full Name:</strong> <span id="username"></span></p>
+        <p><strong>Block Number:</strong> <span id="block"></span></p>
+        <p><strong>Phone Number:</strong> <span id="phone"></span></p>
+        <p><strong>Email:</strong> <span id="email"></span></p>
+        <p><strong>Age:</strong> <span id="age"></span></p>
+        <p><strong>Family Members Count:</strong> <span id="numPersons"></span></p>
+      </div>
+      <p><strong>Family Member Names:</strong></p>
+      <ul id="memberList" class="family-members-list"></ul>
+    </div>
+
+    <!-- ✅ Resident Features -->
+    <div class="feature-grid">
+      <a href="rmaintenance.html" class="card-link">
+        <div class="card">
+          <i class="fa fa-wrench"></i>
+          <h3>Maintenance</h3>
+          <p>Check maintenance requests and issues.</p>
+        </div>
+      </a>
+
+      <a href="rvisitors.html" class="card-link">
+        <div class="card">
+          <i class="fas fa-user-friends"></i>
+          <h3>Visitors</h3>
+          <p>Manage and track visitor entries.</p>
+        </div>
+      </a>
+
+      <!-- <a href="revent.html" class="card-link">
+        <div class="card">
+          <i class="fas fa-calendar-alt"></i>
+          <h3>Events</h3>
+          <p>Request and check event hall availability.</p>
+        </div>
+      </a> -->
+
+      <a href="rpay.html" class="card-link">
+        <div class="card">
+          <i class="fas fa-credit-card"></i>
+          <h3>Rent Payment Status</h3>
+          <p>View and manage your rent payment status.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ✅ JavaScript: Load Data + Role Check + Logout -->
+  <script>
+    const resident = JSON.parse(localStorage.getItem('residentUser'));
+
+    // ✅ Redirect if not a logged-in resident
+    if (!resident) {
+      alert("❌ Access denied. Please log in as a resident.");
+      window.location.href = "login.html";
+    } else {
+      document.getElementById('username').textContent = resident.username || 'N/A';
+      document.getElementById('block').textContent = resident.block || 'N/A';
+      document.getElementById('phone').textContent = resident.phone || 'N/A';
+      document.getElementById('email').textContent = resident.email || 'N/A';
+      document.getElementById('age').textContent = resident.age || 'N/A';
+      document.getElementById('numPersons').textContent = resident.numPersons || '0';
+
+      const memberList = document.getElementById('memberList');
+      if (resident.memberNames && resident.memberNames.length > 0) {
+        resident.memberNames.forEach(name => {
+          const li = document.createElement('li');
+          li.textContent = name;
+          memberList.appendChild(li);
+        });
+      } else {
+        memberList.innerHTML = '<li>No members listed</li>';
+      }
+    }
+
+    // ✅ Logout button
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.clear();
+      window.location.href = "login.html";
+    });
+  </script>
+
+</body>
+</html>

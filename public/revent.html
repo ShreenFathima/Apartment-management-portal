@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Booking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8f9fa;
+            color: #0d1b2a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            gap: 20px;
+        }
+        .left-panel, .right-panel {
+            flex: 1;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            color: #0d1b2a;
+            overflow-y: auto;
+            min-height: 80vh;
+        }
+        .event-brochure {
+            background: #e8e8e8;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+        h2, h3, label, p {
+            color: #0c5eb7;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #0c5eb7;
+            border-radius: 8px;
+            outline: none;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            color: #0d1b2a;
+        }
+        .submit-btn {
+            width: 100%;
+            background: #0c5eb7;
+            color: #fff;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .submit-btn:hover {
+            background: #0c5eb7;
+        }
+        .status-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8e8e8;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #0c5eb7;
+            border-radius: 8px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <h2>Upcoming Events</h2>
+            <div class="event-brochure">
+                <h3>Community Meetup</h3>
+                <p>Date: March 30, 2025</p>
+                <p>Time: 5:00 PM - 7:00 PM</p>
+                <p>Venue: Hall A</p>
+            </div>
+            <div class="event-brochure">
+                <h3>Yoga Session</h3>
+                <p>Date: April 2, 2025</p>
+                <p>Time: 6:30 AM - 8:00 AM</p>
+                <p>Venue: Hall B</p>
+            </div>
+        </div>
+        <div class="right-panel">
+            <h2>Event Booking Request</h2>
+            <form id="event-form">
+                <label for="name">Name:</label>
+                <input type="text" id="name" required>
+                <label for="door-number">Door Number:</label>
+                <input type="text" id="door-number" required>
+                <label for="event-date">Date of Event:</label>
+                <input type="date" id="event-date" required>
+                <label for="event-name">Event Name:</label>
+                <input type="text" id="event-name" required>
+                <label for="hall">Select Hall:</label>
+                <select id="hall" required>
+                    <option value="Hall A">Hall A</option>
+                    <option value="Hall B">Hall B</option>
+                    <option value="Hall C">Hall C</option>
+                </select>
+                <button type="submit" class="submit-btn">Submit Request</button>
+            </form>
+            <div class="status-box" id="status-box">Pending Approval</div>
+        </div>
+    </div>
+</body>
+</html>

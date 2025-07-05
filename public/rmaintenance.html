@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maintenance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="rmaintenance.css" />
+</head>
+<body>
+   <nav class="navigation">
+    <h2 class="head">APT APARTMENT</h2>
+    <button class="logout-btn" id="logoutBtn">Logout</button>
+  </nav>
+
+  <section class="maintenance-form">
+    <h2>Submit a Maintenance Request</h2>
+    <p><strong>Resident:</strong> <span id="residentName"></span></p>
+    <form id="maintenance-form">
+      <label for="issue-type">Issue Type:</label>
+      <select id="issue-type" name="issue-type">
+        <option value="plumbing">Plumbing</option>
+        <option value="electrical">Electrical</option>
+        <option value="appliances">Appliances</option>
+        <option value="other">Other</option>
+      </select>
+
+      <label for="priority">Priority:</label>
+      <select id="priority" name="priority">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" placeholder="Describe the issue..." rows="5"></textarea>
+
+      <button type="submit" class="submit-button">Submit Request</button>
+    </form>
+  </section>
+
+  <section class="maintenance-history">
+    <h2>Your Previous Requests</h2>
+    <table id="request-table">
+      <thead>
+        <tr>
+          <th>Request ID</th>
+          <th>Issue</th>
+          <th>Status</th>
+          <th>Priority</th>
+          <th>Date Submitted</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <div id="modal">
+    <div class="modal-content">
+      <p>Request Submitted Successfully!</p>
+      <button class="close-btn">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const resident = JSON.parse(localStorage.getItem("residentUser"));
+    if (!resident) {
+      alert("You must be logged in.");
+      window.location.href = "login.html";
+    }
+    const residentName = resident.username;
+    document.getElementById("residentName").textContent = residentName;
+
+    document.getElementById("maintenance-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const issueType = document.getElementById("issue-type").value;
+      const priority = document.getElementById("priority").value;
+      const description = document.getElementById("description").value;
+
+      const requestData = {
+        residentName,
+        issueType,
+        priority,
+        description,
+      };
+
+      try {
+        const response = await fetch("http://localhost:5000/api/requests", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestData),
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          const modal = document.getElementById("modal");
+          modal.classList.add("show");
+
+          addRequestToTable(result);
+          document.getElementById("maintenance-form").reset();
+        } else {
+          alert("Submission failed.");
+        }
+      } catch (error) {
+        alert("Server not reachable.");
+        console.error(error);
+      }
+    });
+
+    function addRequestToTable(request) {
+      const tableBody = document.querySelector("#request-table tbody");
+      const row = document.createElement("tr");
+      const date = new Date(request.createdAt).toLocaleDateString();
+      const requestId = request.requestNumber || request._id;
+
+      row.innerHTML = `
+        <td>${requestId}</td>
+        <td>${request.issueType}</td>
+        <td><span class="status ${request.status}">${request.status}</span></td>
+        <td>${request.priority}</td>
+        <td>${date}</td>
+      `;
+      tableBody.appendChild(row);
+    }
+
+    async function loadResidentRequests() {
+      try {
+        const res = await fetch("http://localhost:5000/api/requests?resident=" + encodeURIComponent(residentName));
+        const requests = await res.json();
+        requests.forEach(addRequestToTable);
+      } catch (err) {
+        console.error("Error loading previous requests:", err);
+      }
+    }
+
+    document.querySelector(".close-btn").addEventListener("click", function () {
+      document.getElementById("modal").classList.remove("show");
+    });
+
+    window.onload = loadResidentRequests;
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.clear();
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>

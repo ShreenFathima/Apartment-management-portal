@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register New Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="sign.css">
+</head>
+<body>
+  <nav class="navigation">
+    <h2 class="head">APT APARTMENT</h2>
+    <button id="logoutBtn" class="logout-button">Logout</button>
+  </nav>
+
+  <div class="form-container">
+    <h2 class="title">Register New Admin</h2>
+
+    <form id="adminSignupForm" novalidate>
+      <input type="hidden" id="selectedRole" value="admin" />
+
+      <div class="form-wrapper">
+        <div class="form-section">
+          <h3>Admin Details</h3>
+          <div class="form-row"><label>Full Name *</label><input type="text" id="name" required /></div>
+          <div class="form-row"><label>Email *</label><input type="email" id="email" required /></div>
+          <div class="form-row"><label>Phone Number *</label><input type="tel" id="phone" maxlength="10" required /></div>
+          <small id="phoneError" class="error-msg"></small>
+          <div class="form-row"><label>Password *</label><input type="password" id="password" required /></div>
+          <div class="form-row"><label>Confirm Password *</label><input type="password" id="confirmPassword" required /></div>
+        </div>
+
+        <div class="form-section">
+          <h3>Admin Address Details</h3>
+          <div class="form-row"><label>Address Line *</label><input type="text" id="address" required /></div>
+          <div class="form-row"><label>City *</label><input type="text" id="city" required /></div>
+          <div class="form-row"><label>State *</label><input type="text" id="state" required /></div>
+          <div class="form-row"><label>Pincode *</label><input type="text" id="pincode" maxlength="6" required /></div>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">Register Admin</button>
+      <p class="note">* Fields marked with an asterisk are compulsory</p>
+    </form>
+  </div>
+
+  <script>
+    // ✅ Phone number validation
+    const phoneInput = document.getElementById('phone');
+    const phoneError = document.getElementById('phoneError');
+
+    phoneInput.addEventListener('input', () => {
+      if (phoneInput.value.length > 10) {
+        phoneError.textContent = "Phone number should be exactly 10 digits.";
+        phoneInput.setCustomValidity("Invalid");
+      } else {
+        phoneError.textContent = "";
+        phoneInput.setCustomValidity("");
+      }
+    });
+
+    // ✅ Form submission
+    document.getElementById("adminSignupForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        alert("❌ Passwords do not match.");
+        return;
+      }
+
+      const signupData = {
+        role: "admin",
+        username: document.getElementById("name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        password,
+        address: document.getElementById("address").value.trim(),
+        city: document.getElementById("city").value.trim(),
+        state: document.getElementById("state").value.trim(),
+        pincode: document.getElementById("pincode").value.trim(),
+      };
+
+      try {
+        const response = await fetch("http://localhost:5000/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(signupData)
+        });
+
+        if (response.ok) {
+          alert("✅ Admin registered successfully!");
+          window.location.href = "admin.html";  // ✅ Redirect to Admin Dashboard
+        } else {
+          alert("❌ Registration failed.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("❌ Server error.");
+      }
+    });
+
+    // ✅ Logout Button
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.clear();
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #f4f4f9, #e1e1e6);
+  color: #333;
+  min-height: 100vh;
+  /* padding: 20px; */
+}
+
+/* Navigation Bar */
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2a2a72;
+  padding: 15px 30px;
+}
+.navigation {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+
+.head {
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.logout-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.logout-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 60px auto 0;
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: transparent;
+}
+
+/* Account Details */
+.account-details {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px 30px;
+}
+
+.account-details h4 {
+  /* font-family: 'Playfair Display', serif; */
+  font-size: 24px;
+  color: #2a2a72;
+  margin-bottom: 15px;
+}
+
+.account-details p {
+  font-size: 16px;
+  margin: 6px 0;
+  color: #333;
+}
+.account-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  gap: 10px 40px; /* Row and column gaps */
+}
+
+/* Feature Grid */
+.feature-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+/* Card Styling */
+.card-link {
+  text-decoration: none;
+  flex: 1;
+}
+
+.card {
+  background: transparent;
+  padding: 10px;
+  border: none;
+  border-radius: 0;
+  text-align: center;
+  color: #2a2a72;
+  transition: color 0.3s ease;
+  box-shadow: none;
+  min-width: 150px;
+}
+
+.card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.card i {
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: #2a2a72;
+}
+
+.card h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.card p {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navigation {
+    padding: 10px 20px;
+  }
+
+  .feature-grid {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .card {
+    min-width: 45%;
+  }
+}
+.dashboard-title {
+  /* font-family: 'Playfair Display', serif; */
+  color: #2a2a72;
+  font-size: 45px;
+  margin-bottom: 40px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+.add-admin-btn {
+  padding: 10px 20px;
+  margin: 20px 0;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.add-admin-btn:hover {
+  background-color: #0056b3;
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard - Visitors</title>
+  <link rel="stylesheet" href="avisitors.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+</head>
+<body>
+  <main class="content">
+      <nav class="navigation">
+        <h2 class="head">APT APARTMENT</h2>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </nav>
+
+    <!-- Search Box -->
+    <div class="search-container">
+      <input type="text" id="search" class="search-input" placeholder="Search for a visitor..." oninput="searchNames()">
+      <button class="search-button"><i class="fas fa-search"></i></button>
+    </div>
+
+    <!-- Visitor Table -->
+    <section class="table-section">
+      <h3>Visitor List</h3>
+      <table class="table" id="visitorTable">
+        <thead>
+          <tr>
+            <th>Visitor Name</th>
+            <th>Block Number</th>
+            <th>Date In</th>
+            <th>Date Out</th>
+            <th>Time In</th>
+            <th>Time Out</th>
+          </tr>
+        </thead>
+        <tbody id="visitorTableBody">
+          <!-- Visitor data will load here -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- JS to fetch and display visitors -->
+  <script>
+  function searchNames() {
+    const query = document.getElementById("search").value.toLowerCase();
+    const rows = document.querySelectorAll("#visitorTableBody tr");
+    rows.forEach(row => {
+      const nameCell = row.cells[0].textContent.toLowerCase();
+      row.style.display = nameCell.includes(query) ? "" : "none";
+    });
+  }
+
+  async function fetchAdminVisitors() {
+    try {
+      const res = await fetch("http://localhost:5000/api/visitors");
+      const visitors = await res.json();
+
+      const tbody = document.getElementById("visitorTableBody");
+      tbody.innerHTML = "";
+
+      visitors.forEach(visitor => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${visitor.visitorName || "N/A"}</td>
+          <td>${visitor.blockNumber || "N/A"}</td>
+          <td>${visitor.dateIn ? visitor.dateIn.split("T")[0] : "N/A"}</td>
+          <td>${visitor.dateOut ? visitor.dateOut.split("T")[0] : "N/A"}</td>
+          <td>${visitor.timeIn || "N/A"}</td>
+          <td>${visitor.timeOut || "N/A"}</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+    } catch (err) {
+      console.error("❌ Error loading visitors:", err);
+      alert("Failed to load visitor data.");
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", fetchAdminVisitors);
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.clear();
+      window.location.href = "login.html";
+    });
+</script>
+
+</body>
+</html>
