@@ -1,4 +1,4 @@
-# 🏢 Apartment Management Portal (Apartment-management-portal)
+# 🏢 Apartment Management Portal (APT)
 
 A Node.js and Express.js-based backend for managing apartment services, including user accounts, rent tracking, visitor logs, and maintenance requests.
 
