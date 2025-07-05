@@ -1,4 +1,4 @@
-# 🏢 Apartment Management Portal (APT)
+# 🏢 Apartment Management Portal (Apartment-management-portal)
 
 A Node.js and Express.js-based backend for managing apartment services, including user accounts, rent tracking, visitor logs, and maintenance requests.
 
@@ -46,8 +46,8 @@ maintenance-backend/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/ShreenFathima/APT.git
-   cd APT/maintenance-backend
+   git clone https://github.com/ShreenFathima/Apartment-management-portal.git
+   cd Apartment-management-portal/maintenance-backend
    ```
 
 2. Install dependencies:
